@@ -51,6 +51,7 @@ class Ball(ObjectScene):
 
         if self.contact_with_player:
             print("touché")
+            print(self.player_position_dic)
             self.move_ball_direction_x()
 
         elif self.left_position <= 0:

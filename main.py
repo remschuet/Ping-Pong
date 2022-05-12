@@ -19,6 +19,5 @@ player_left = Player(canvas, "player_left", WIDTH, HEIGHT, 30, 150, ball)
 root.bind("<Up>", player_left.move_top)
 root.bind("<Down>", player_left.move_down)
 
+
 root.mainloop()
-
-
