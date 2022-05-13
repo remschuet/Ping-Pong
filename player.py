@@ -3,11 +3,11 @@ from ball import Ball
 
 
 class Player(ObjectScene):
-    def __init__(self, canvas, name: str, position_a, position_b, position_c, position_d, ball: Ball):
-        super().__init__(name, position_a, position_b, position_c, position_d)
+    def __init__(self, canvas, name_id: str, position_a, position_b, position_c, position_d, ball: Ball):
+        super().__init__(name_id, position_a, position_b, position_c, position_d)
 
         self.canvas = canvas
-        self.name_id = name
+        self.name_id = name_id
 
         self.position_a = position_a
         self.position_b = position_b
@@ -21,7 +21,8 @@ class Player(ObjectScene):
         self.player_speed_x = 0
         self.player_speed_y = 10
 
-        self.player = canvas.create_rectangle(self.position_a, self.position_b, self.position_c, self.position_d, fill="white")
+        self.player = canvas.create_rectangle(self.position_a, self.position_b, self.position_c, self.position_d,
+                                              fill="white")
         self.movement()
 
     def movement(self):
@@ -51,19 +52,18 @@ class Player(ObjectScene):
 
     def can_move(self, direction):
         self.player_can_move = False
-        if self.name_id == "player_left":
-            self.position_reset()
-            (self.position_a, self.position_b, self.position_c,
-             self.position_d) = self.canvas.coords(self.player)
-            if direction == "down" and self.position_b == 0:
-                self.player_can_move = True
-            elif direction == "top" and self.position_b == 250:
-                self.player_can_move = True
-            elif 0 < self.position_b < 250:
-                self.player_can_move = True
-            else:
-                self.player_can_move = False
+        self.position_reset()
+        (self.position_a, self.position_b, self.position_c,
+         self.position_d) = self.canvas.coords(self.player)
+        if direction == "down" and self.position_b == 0:
+            self.player_can_move = True
+        elif direction == "top" and self.position_b == 250:
+            self.player_can_move = True
+        elif 0 < self.position_b < 250:
+            self.player_can_move = True
+        else:
+            self.player_can_move = False
 
     def send_position_player(self):
-        self.ball.set_new_position_player_in_list(self.name_id, self.position_a, self.position_b,
+        self.ball.set_new_position_object_in_list(self.name_id, self.position_a, self.position_b,
                                                   self.position_c, self.position_d)
