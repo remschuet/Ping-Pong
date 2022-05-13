@@ -12,8 +12,8 @@ canvas = Canvas(root, width=WIDTH, height=HEIGHT, bg="black")
 canvas.pack()
 
 
-ball = Ball("ball", canvas, WIDTH, HEIGHT, 100, 100, root)
-player_left = Player(canvas, "player_left", WIDTH, HEIGHT, 30, 150, ball)
+ball = Ball("ball", canvas, WIDTH, HEIGHT, 10, 10, 50, 50, root)
+player_left = Player(canvas, "player_left", 10, 10, 20, 60, ball)
 
 
 root.bind("<Up>", player_left.move_top)

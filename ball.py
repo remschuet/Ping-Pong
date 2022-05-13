@@ -2,79 +2,77 @@ from object_scene import ObjectScene
 
 
 class Ball(ObjectScene):
-    def __init__(self, name, canvas, width: int, height: int, position_x, position_y, root):
-        super().__init__(name, position_x, position_y)
+    def __init__(self, name, canvas, width: int, height: int, position_a, position_b, position_c, position_d, root):
+        super().__init__(name, position_a, position_b, position_c, position_d)
 
         self.name = name
         self.canvas = canvas
-        self.speed_x = int
-        self.speed_y = int
         self.WIDTH = width
         self.HEIGHT = height
         self.root = root
 
-        self.position_x = position_x
-        self.position_y = position_y
+        self.position_a = position_a
+        self.position_b = position_b
+        self.position_c = position_c
+        self.position_d = position_d
 
-        self.left_position = None
-        self.top_position = None
-        self.right_position = None
-        self.bottom_position = None
         self.object_name = None
 
         self.contact_with_player = False
 
-        self.get_speed()
-        self.player_position_dic = {}
-
-        self.ball = canvas.create_oval(10, 10, 50, 50, fill="white")
-
-        self.check_collision_border()
-
-    def get_speed(self):
         self.speed_x = 4
         self.speed_y = 4
 
+        self.player_position_dic = {}
+
+        self.ball = canvas.create_oval(self.position_a, self.position_b, self.position_c, self.position_d, fill="white")
+
+        self.check_collision_border()
+
+    def position_reset(self):
+        self.position_a = None
+        self.position_b = None
+        self.position_c = None
+        self.position_d = None
+
     def check_collision_border(self):
         self.canvas.move(self.ball, self.speed_x, self.speed_y)
-        (self.left_position, self.top_position, self.right_position,
-         self.bottom_position) = self.canvas.coords(self.ball)
-
-        self.position_x = self.left_position
-        self.position_y = self.top_position
+        self.position_reset()
+        (self.position_a, self.position_b, self.position_c,
+         self.position_d) = self.canvas.coords(self.ball)
 
         # Detect if collision
-        self.check_collision_with_object(self.name, self.left_position, self.top_position, self.right_position, self.bottom_position)
+        self.check_collision_with_object(self.name, self.position_a, self.position_b, self.position_c, self.position_d)
 
-        self.set_new_position_player_in_list(self.name, self.left_position, self.top_position,
-                                             self.right_position, self.bottom_position)
+        self.set_new_position_player_in_list(self.name, self.position_a, self.position_b,
+                                             self.position_c, self.position_d)
 
         if self.contact_with_player:
             print("touché")
             print(self.player_position_dic)
             self.move_ball_direction_x()
 
-        elif self.left_position <= 0:
+        elif self.position_a <= 0:
             self.root.destroy()
 
-        elif self.right_position >= self.WIDTH:
+        elif self.position_c >= self.WIDTH:
             self.move_ball_direction_x()
 
-        elif self.top_position <= 0 or self.bottom_position >= self.HEIGHT:
-            print(self.left_position, self.top_position, self.right_position, self.bottom_position)
+        elif self.position_b <= 0 or self.position_d >= self.HEIGHT:
+            print(self.position_a, self.position_b, self.position_c, self.position_d)
             self.speed_y = -int(self.speed_y)
-            self.position_y = -int(self.speed_y)
-            self.set_new_position_player_in_list(self.name, self.left_position, self.top_position,
-                                                 self.right_position, self.bottom_position)
+            self.position_b = -int(self.speed_y)
+            self.set_new_position_player_in_list(self.name, self.position_a, self.position_b,
+                                                 self.position_c, self.position_d)
 
         self.canvas.after(30, self.check_collision_border)
 
     def move_ball_direction_x(self):
-        print(self.left_position, self.top_position, self.right_position, self.bottom_position)
+        print(self.position_a, self.position_b, self.position_c, self.position_d)
         self.speed_x = -int(self.speed_x)
-        self.position_x = -int(self.speed_x)
-        self.set_new_position_player_in_list(self.name, self.left_position, self.top_position,
-                                             self.right_position, self.bottom_position)
+        self.position_a = -int(self.speed_x)
+        self.set_new_position_player_in_list(self.name, self.position_a, self.position_b,
+                                             self.position_c, self.position_d)
 
     def set_new_position_player_in_list(self, players_name, left_position, top_position, right_position, bottom_position):
         self.player_position_dic[players_name] = (left_position, top_position,
