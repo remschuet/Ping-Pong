@@ -23,6 +23,10 @@ class Player(ObjectScene):
 
         self.player = canvas.create_rectangle(self.position_a, self.position_b, self.position_c, self.position_d,
                                               fill="white")
+
+        self.ball.set_new_position_object_in_list(self.name_id, self.position_a, self.position_b,
+                                                  self.position_c, self.position_d)
+
         self.movement()
 
     def movement(self):
