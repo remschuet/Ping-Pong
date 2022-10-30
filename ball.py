@@ -1,3 +1,5 @@
+import random
+
 from object_scene import ObjectScene
 from points import Point
 
@@ -44,10 +46,14 @@ class Ball(ObjectScene):
 
         if self.check_collision_with_object(self.name, self.position_a, self.position_b, self.position_c, self.position_d):
             print("touché")
-            print(self.player_position_dic)
             self.move_ball_direction_x()
 
-        elif self.position_a <= 0 or self.position_c >= self.WIDTH:
+        elif self.position_a <= 0:
+            self.points_right.add_points()
+            self.move_ball_direction_x()
+
+        elif self.position_c >= self.WIDTH:
+            self.points_left.add_points()
             self.move_ball_direction_x()
 
         elif self.position_b <= 0 or self.position_d >= self.HEIGHT:
@@ -69,7 +75,7 @@ class Ball(ObjectScene):
     def set_new_position_object_in_list(self, players_name, position_a, position_b, position_c, position_d):
         self.player_position_dic[players_name] = (position_a, position_b,
                                                   position_c, position_d)
-        print(self.player_position_dic)
+        # print(self.player_position_dic)
 
     def check_collision_with_object(self, name, position_a, position_b, position_c, position_d):
         for object_name, (a, b, c, d) in self.player_position_dic.items():
